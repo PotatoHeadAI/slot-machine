@@ -1,0 +1,787 @@
+/* 娱乐老虎机游戏 - 完整CSS样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 游戏头部 */
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo i {
+    font-size: 3rem;
+    color: #FFD700;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.logo h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.game-subtitle {
+    font-size: 1.2rem;
+    color: #a0aec0;
+    margin-bottom: 15px;
+}
+
+.game-warning {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid #ffc107;
+    border-radius: 10px;
+    color: #ffc107;
+    font-weight: 500;
+}
+
+.game-warning i {
+    font-size: 1.2rem;
+}
+
+/* 主游戏区域布局 */
+.game-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 1024px) {
+    .game-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 老虎机主体 */
+.slot-machine {
+    background: linear-gradient(145deg, #2d3748, #1a202c);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.slot-machine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+}
+
+.slot-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.slot-light {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #FFD700;
+    box-shadow: 0 0 20px #FFD700;
+    animation: lightBlink 1.5s infinite alternate;
+}
+
+@keyframes lightBlink {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.slot-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #FFD700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* 转轮容器 */
+.reels-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 40px 0;
+    position: relative;
+}
+
+.reel {
+    width: 150px;
+    height: 300px;
+    background: #1a202c;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    border: 3px solid #4a5568;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.reel-strip {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.symbol {
+    width: 150px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    border-bottom: 1px solid #2d3748;
+}
+
+/* 中奖线 */
+.payline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 215, 0, 0.7);
+    z-index: 10;
+}
+
+.middle-line {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.top-line {
+    top: 33%;
+}
+
+.bottom-line {
+    top: 67%;
+}
+
+.payline::before,
+.payline::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #FFD700;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.payline::before {
+    left: -10px;
+}
+
+.payline::after {
+    right: -10px;
+}
+
+/* 控制面板 */
+.control-panel {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.spin-button {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    color: #1a202c;
+    border: none;
+    padding: 20px 50px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-radius: 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+}
+
+.spin-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+}
+
+.spin-button:active {
+    transform: translateY(-2px);
+}
+
+.spin-button.spinning {
+    background: linear-gradient(45deg, #4a5568, #2d3748);
+    cursor: not-allowed;
+}
+
+.bet-control {
+    margin-top: 30px;
+}
+
+.bet-control label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #a0aec0;
+}
+
+.bet-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.bet-btn {
+    padding: 12px 25px;
+    background: #4a5568;
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.bet-btn:hover {
+    background: #2d3748;
+}
+
+.bet-btn.active {
+    background: #FFD700;
+    color: #1a202c;
+    border-color: #FFD700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.virtual-coin {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 25px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.virtual-coin i {
+    color: #FFD700;
+}
+
+/* 老虎机底部 */
+.slot-bottom {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.jackpot-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 30px;
+    background: rgba(220, 38, 38, 0.1);
+    border: 2px solid #dc2626;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.jackpot-display i {
+    color: #dc2626;
+    font-size: 1.5rem;
+}
+
+/* 信息卡片 */
+.info-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.info-card h3 {
+    color: #FFD700;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 游戏状态 */
+.status-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.status-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-label {
+    display: block;
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.status-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #FFD700;
+}
+
+/* 中奖结果 */
+.result-display {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+.empty-result {
+    text-align: center;
+    color: #a0aec0;
+}
+
+.empty-result i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.last-win {
+    padding: 15px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #a0aec0;
+}
+
+/* 成就系统 */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.achievement {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+.achievement.locked {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
+.achievement.unlocked {
+    border-color: #FFD700;
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.achievement-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.achievement-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.achievement-desc {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    margin-bottom: 5px;
+}
+
+.achievement-points {
+    font-size: 0.7rem;
+    color: #FFD700;
+    font-weight: bold;
+}
+
+/* 游戏规则 */
+.rules-list {
+    list-style: none;
+}
+
+.rules-list li {
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rules-list li:last-child {
+    border-bottom: none;
+}
+
+.rules-list i {
+    color: #4ade80;
+}
+
+/* 游戏统计 */
+.game-stats {
+    margin-bottom: 30px;
+}
+
+.stats-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #FFD700;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* 游戏控制 */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.control-btn {
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.control-btn.active {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+/* 模态框 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, #2d3748, #1a202c);
+    border-radius: 25px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #a0aec0;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-modal:hover {
+    color: #fff;
+}
+
+.modal-body {
+    padding: 30px;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.help-section {
+    margin-bottom: 25px;
+}
+
+.help-section h4 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.help-section p, .help-section li {
+    color: #a0aec0;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.help-section ol, .help-section ul {
+    padding-left: 20px;
+}
+
+.help-section li {
+    margin-bottom: 8px;
+}
+
+/* 页脚 */
+.game-footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 30px;
+}
+
+.footer-content p {
+    margin-bottom: 10px;
+}
+
+.footer-note {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-note i {
+    color: #FFD700;
+}
+
+.copyright {
+    font-size: 0.8rem;
+    color: #718096;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .logo h1 {
+        font-size: 1.8rem;
+    }
+    
+    .game-main {
+        gap: 20px;
+    }
+    
+    .slot-machine {
+        padding: 20px;
+    }
+    
+    .reels-container {
+        gap: 10px;
+    }
+    
+    .reel {
+        width: 100px;
+        height: 200px;
+    }
+    
+    .symbol {
+        width: 100px;
+        height: 67px;
+        font-size: 2rem;
+    }
+    
+    .spin-button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+    }
+    
+    .game-controls {
+        flex-wrap: wrap;
+    }
+    
+    .control-btn {
+        flex: 1;
+        min-width: 140px;
+        justify-content: center;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .game-controls, .spin-button, .bet-control {
+        display: none;
+    }
+}

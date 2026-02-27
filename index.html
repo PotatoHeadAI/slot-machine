@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 马铃薯头娱乐老虎机 - 纯娱乐游戏</title>
+    <meta name="description" content="纯娱乐老虎机游戏，无赌博性质，仅供休闲娱乐。包含趣味动画、成就系统和虚拟收集元素。">
+    <meta name="keywords" content="老虎机,娱乐游戏,休闲游戏,动画效果,虚拟收集">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://emojicdn.elk.sh/🎰">
+</head>
+<body>
+    <div class="container">
+        <!-- 游戏标题和说明 -->
+        <header class="game-header">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <h1>🎰 马铃薯头娱乐老虎机</h1>
+            </div>
+            <p class="game-subtitle">纯娱乐游戏 · 无赌博性质 · 仅供休闲放松</p>
+            <div class="game-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>本游戏仅供娱乐，不涉及任何金钱交易或赌博元素</span>
+            </div>
+        </header>
+
+        <!-- 主游戏区域 -->
+        <main class="game-main">
+            <!-- 左侧：老虎机主体 -->
+            <section class="slot-machine-section">
+                <div class="slot-machine">
+                    <!-- 老虎机顶部装饰 -->
+                    <div class="slot-top">
+                        <div class="slot-light left-light"></div>
+                        <div class="slot-title">幸运老虎机</div>
+                        <div class="slot-light right-light"></div>
+                    </div>
+                    
+                    <!-- 老虎机主体 -->
+                    <div class="slot-body">
+                        <!-- 三个转轮 -->
+                        <div class="reels-container">
+                            <div class="reel" id="reel1">
+                                <div class="reel-strip">
+                                    <!-- 符号将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            <div class="reel" id="reel2">
+                                <div class="reel-strip">
+                                    <!-- 符号将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            <div class="reel" id="reel3">
+                                <div class="reel-strip">
+                                    <!-- 符号将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 中奖线 -->
+                        <div class="payline middle-line"></div>
+                        <div class="payline top-line"></div>
+                        <div class="payline bottom-line"></div>
+                        
+                        <!-- 控制面板 -->
+                        <div class="control-panel">
+                            <button id="spin-btn" class="spin-button">
+                                <i class="fas fa-play"></i>
+                                <span>开始旋转</span>
+                            </button>
+                            
+                            <div class="bet-control">
+                                <label for="bet-amount">虚拟投注：</label>
+                                <div class="bet-buttons">
+                                    <button class="bet-btn" data-bet="10">10</button>
+                                    <button class="bet-btn" data-bet="50">50</button>
+                                    <button class="bet-btn active" data-bet="100">100</button>
+                                    <button class="bet-btn" data-bet="500">500</button>
+                                </div>
+                                <div class="virtual-coin">
+                                    <i class="fas fa-coins"></i>
+                                    <span id="coin-count">1000</span> 虚拟币
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 老虎机底部 -->
+                    <div class="slot-bottom">
+                        <div class="jackpot-display">
+                            <i class="fas fa-trophy"></i>
+                            <span>累计奖池：</span>
+                            <span id="jackpot">5000</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 右侧：游戏信息 -->
+            <section class="game-info-section">
+                <!-- 游戏状态 -->
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> 游戏状态</h3>
+                    <div class="status-display">
+                        <div class="status-item">
+                            <span class="status-label">当前虚拟币：</span>
+                            <span class="status-value" id="current-coins">1000</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">连胜次数：</span>
+                            <span class="status-value" id="win-streak">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">游戏次数：</span>
+                            <span class="status-value" id="games-played">0</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">胜率：</span>
+                            <span class="status-value" id="win-rate">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中奖结果 -->
+                <div class="info-card">
+                    <h3><i class="fas fa-star"></i> 中奖结果</h3>
+                    <div class="result-display" id="result-display">
+                        <div class="empty-result">
+                            <i class="fas fa-dice"></i>
+                            <p>点击"开始旋转"试试运气！</p>
+                        </div>
+                    </div>
+                    <div class="last-win" id="last-win">
+                        <!-- 最近中奖信息将通过JavaScript动态显示 -->
+                    </div>
+                </div>
+
+                <!-- 成就系统 -->
+                <div class="info-card">
+                    <h3><i class="fas fa-medal"></i> 成就系统</h3>
+                    <div class="achievements-grid" id="achievements-grid">
+                        <!-- 成就将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 游戏规则 -->
+                <div class="info-card rules-card">
+                    <h3><i class="fas fa-book"></i> 游戏规则</h3>
+                    <ul class="rules-list">
+                        <li><i class="fas fa-check-circle"></i> 纯娱乐游戏，无真实货币交易</li>
+                        <li><i class="fas fa-check-circle"></i> 虚拟币仅用于游戏内计分</li>
+                        <li><i class="fas fa-check-circle"></i> 三个相同符号即可中奖</li>
+                        <li><i class="fas fa-check-circle"></i> 收集成就解锁特殊效果</li>
+                        <li><i class="fas fa-check-circle"></i> 每局游戏消耗虚拟投注额</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <!-- 游戏统计 -->
+        <section class="game-stats">
+            <div class="stats-card">
+                <h3><i class="fas fa-chart-line"></i> 游戏统计</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">游戏时间</div>
+                            <div class="stat-value" id="play-time">0分钟</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-gem"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">最高中奖</div>
+                            <div class="stat-value" id="max-win">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">火热连胜</div>
+                            <div class="stat-value" id="max-streak">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-crown"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-label">成就点数</div>
+                            <div class="stat-value" id="achievement-points">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 游戏控制 -->
+        <section class="game-controls">
+            <button id="reset-btn" class="control-btn">
+                <i class="fas fa-redo"></i> 重置游戏
+            </button>
+            <button id="sound-btn" class="control-btn active">
+                <i class="fas fa-volume-up"></i> 音效
+            </button>
+            <button id="help-btn" class="control-btn">
+                <i class="fas fa-question-circle"></i> 帮助
+            </button>
+            <button id="share-btn" class="control-btn">
+                <i class="fas fa-share-alt"></i> 分享
+            </button>
+        </section>
+
+        <!-- 帮助模态框 -->
+        <div class="modal" id="help-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-question-circle"></i> 游戏帮助</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-section">
+                        <h4>🎮 游戏目的</h4>
+                        <p>这是一个纯娱乐的老虎机游戏，旨在提供轻松的休闲体验。游戏使用虚拟货币，不涉及任何真实金钱交易。</p>
+                    </div>
+                    <div class="help-section">
+                        <h4>⚙️ 如何游戏</h4>
+                        <ol>
+                            <li>选择虚拟投注金额（10、50、100、500）</li>
+                            <li>点击"开始旋转"按钮</li>
+                            <li>等待转轮停止，查看结果</li>
+                            <li>三个相同符号即可中奖</li>
+                            <li>收集成就，提升游戏等级</li>
+                        </ol>
+                    </div>
+                    <div class="help-section">
+                        <h4>🏆 成就系统</h4>
+                        <p>完成特定任务可以解锁成就，每个成就都会奖励成就点数。收集所有成就可以解锁特殊游戏效果。</p>
+                    </div>
+                    <div class="help-section">
+                        <h4>⚠️ 重要提示</h4>
+                        <ul>
+                            <li>本游戏仅供娱乐，请勿沉迷</li>
+                            <li>虚拟货币不具有真实价值</li>
+                            <li>建议每次游戏时间不超过30分钟</li>
+                            <li>适合所有年龄段玩家</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="game-footer">
+            <div class="footer-content">
+                <p>🎰 <strong>马铃薯头娱乐老虎机</strong> - 纯娱乐游戏，无赌博性质</p>
+                <p class="footer-note">
+                    <i class="fas fa-heart"></i> 游戏设计：马铃薯头AI · 
+                    <i class="fas fa-code"></i> 技术：HTML5/CSS3/JavaScript · 
+                    <i class="fas fa-shield-alt"></i> 安全：100%无赌博元素
+                </p>
+                <p class="copyright">
+                    © 2026 PotatoHeadAI · 本游戏仅供娱乐，请理性游戏
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 音效 -->
+    <audio id="spin-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1080.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="win-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="coin-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-coin-win-notification-1998.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="js/slot-machine.js"></script>
+</body>
+</html>
