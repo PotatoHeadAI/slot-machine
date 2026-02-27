@@ -38,6 +38,7 @@ class SlotMachineGame {
         this.isSpinning = false;
         this.spinTimeout = null;
         this.playTimer = null;
+        this.forcedWinSymbol = null; // 强制中奖的符号
         
         this.initElements();
         this.initEventListeners();
@@ -145,8 +146,9 @@ class SlotMachineGame {
     }
     
     getRandomSymbol() {
-        // 加权随机 - 高倍率符号出现概率更低
-        const weights = [30, 25, 20, 15, 10, 5, 3, 2]; // 对应8个符号
+        // 加权随机 - 高倍率符号出现概率更低，低倍率符号更容易出现
+        // 权重对应：樱桃🍒、柠檬🍋、橙子🍊、星星⭐、铃铛🔔、幸运7️⃣、老虎机🎰、皇冠👑
+        const weights = [40, 30, 20, 15, 8, 4, 2, 1]; // 低倍率符号权重更高
         const totalWeight = weights.reduce((a, b) => a + b, 0);
         let random = Math.random() * totalWeight;
         
@@ -184,6 +186,14 @@ class SlotMachineGame {
         if (this.gameState.coins < this.gameState.betAmount) {
             this.showMessage('虚拟币不足！请重置游戏或降低投注额。', 'error');
             return;
+        }
+        
+        // 30%概率强制中奖（娱乐性质，增加中奖率）
+        this.forcedWinSymbol = null;
+        if (Math.random() < 0.3) { // 30%概率
+            // 随机选择一个符号作为中奖符号（权重偏向低倍率符号）
+            this.forcedWinSymbol = this.getRandomSymbol();
+            console.log(`🎯 强制中奖激活！符号：${this.forcedWinSymbol.emoji} ${this.forcedWinSymbol.name}`);
         }
         
         // 扣除投注额
@@ -257,6 +267,19 @@ class SlotMachineGame {
         const reels = [this.reel1, this.reel2, this.reel3];
         const results = [];
         
+        // 如果这局强制中奖，返回相同的符号
+        if (this.forcedWinSymbol) {
+            console.log(`🎰 强制中奖模式：三个转轮都显示 ${this.forcedWinSymbol.emoji} ${this.forcedWinSymbol.name}`);
+            for (let i = 0; i < 3; i++) {
+                results.push({
+                    emoji: this.forcedWinSymbol.emoji,
+                    name: this.forcedWinSymbol.name,
+                    multiplier: this.forcedWinSymbol.multiplier
+                });
+            }
+            return results;
+        }
+        
         reels.forEach(reel => {
             const strip = reel.querySelector('.reel-strip');
             const computedStyle = window.getComputedStyle(strip);
@@ -297,6 +320,10 @@ class SlotMachineGame {
         // 先隐藏所有中奖线
         this.hideAllPaylines();
         
+        // 重置强制中奖符号（无论是否中奖）
+        const wasForcedWin = this.forcedWinSymbol;
+        this.forcedWinSymbol = null;
+        
         // 检查是否中奖（三个符号相同）
         if (symbol1.name === symbol2.name && symbol2.name === symbol3.name) {
             // 中奖！
@@ -318,7 +345,13 @@ class SlotMachineGame {
             
             // 显示中奖线和信息
             this.showWinPaylines();
-            this.showWinMessage(symbol1, winAmount);
+            
+            // 如果是强制中奖，添加特殊提示
+            if (wasForcedWin) {
+                this.showWinMessage(symbol1, winAmount, true);
+            } else {
+                this.showWinMessage(symbol1, winAmount, false);
+            }
             
             // 播放中奖音效
             if (this.gameState.soundEnabled) {
@@ -354,7 +387,15 @@ class SlotMachineGame {
         }, 3000);
     }
     
-    showWinMessage(symbol, amount) {
+    showWinMessage(symbol, amount, isForcedWin = false) {
+        let title = '🎉 恭喜中奖！';
+        let extraInfo = '';
+        
+        if (isForcedWin) {
+            title = '🎊 幸运降临！';
+            extraInfo = '<div class="lucky-note">✨ 幸运加成 ✨</div>';
+        }
+        
         const resultHTML = `
             <div class="win-result">
                 <div class="win-symbols">
@@ -363,15 +404,16 @@ class SlotMachineGame {
                     <div class="win-symbol">${symbol.emoji}</div>
                 </div>
                 <div class="win-info">
-                    <h4>🎉 恭喜中奖！</h4>
+                    <h4>${title}</h4>
                     <p>${symbol.name} x${symbol.multiplier}</p>
                     <div class="win-amount">+${amount} 虚拟币</div>
+                    ${extraInfo}
                 </div>
             </div>
         `;
         
         this.resultDisplay.innerHTML = resultHTML;
-        this.lastWin.innerHTML = `最近中奖：${symbol.name} x${symbol.multiplier} (+${amount})`;
+        this.lastWin.innerHTML = `最近中奖：${symbol.name} x${symbol.multiplier} (+${amount})${isForcedWin ? ' 🍀' : ''}`;
         
         // 添加庆祝动画
         this.resultDisplay.classList.add('celebrating');
