@@ -182,14 +182,19 @@ body {
     border-bottom: 1px solid #2d3748;
 }
 
-/* 中奖线 */
+/* 中奖线 - 默认隐藏，中奖时显示 */
 .payline {
     position: absolute;
     left: 0;
     right: 0;
     height: 4px;
-    background: rgba(255, 215, 0, 0.7);
+    background: rgba(255, 215, 0, 0);
     z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.payline.active {
+    background: rgba(255, 215, 0, 0.7);
 }
 
 .middle-line {
@@ -211,10 +216,16 @@ body {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: #FFD700;
+    background: rgba(255, 215, 0, 0);
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
+    transition: background-color 0.3s ease;
+}
+
+.payline.active::before,
+.payline.active::after {
+    background: #FFD700;
 }
 
 .payline::before {

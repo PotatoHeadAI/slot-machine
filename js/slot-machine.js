@@ -264,9 +264,22 @@ class SlotMachineGame {
             const translateY = matrix.m42;
             
             // 计算当前显示的符号（中间位置）
-            const symbolIndex = Math.round(Math.abs(translateY) / 100) % 8;
+            // 每个符号高度100px，转轮高度300px，中间位置是第2个符号（索引1）
+            // 但因为有滚动，需要计算实际位置
+            const totalSymbols = strip.children.length; // 20个符号
+            const symbolHeight = 100;
+            
+            // 计算当前中间位置的符号索引
+            // translateY是负值，表示向上滚动了多少
+            const scrollPosition = Math.abs(translateY);
+            const middlePosition = scrollPosition + 150; // 转轮中间位置（150px）
+            const symbolIndex = Math.floor(middlePosition / symbolHeight) % totalSymbols;
+            
             const symbols = strip.querySelectorAll('.symbol');
             const currentSymbol = symbols[symbolIndex];
+            
+            // 调试信息
+            console.log(`转轮结果: translateY=${translateY}, 符号=${currentSymbol.innerHTML}, 名称=${currentSymbol.dataset.name}`);
             
             results.push({
                 emoji: currentSymbol.innerHTML,
@@ -280,6 +293,9 @@ class SlotMachineGame {
     
     processResults(results) {
         const [symbol1, symbol2, symbol3] = results;
+        
+        // 先隐藏所有中奖线
+        this.hideAllPaylines();
         
         // 检查是否中奖（三个符号相同）
         if (symbol1.name === symbol2.name && symbol2.name === symbol3.name) {
@@ -300,7 +316,8 @@ class SlotMachineGame {
                 this.gameState.maxStreak = this.gameState.winStreak;
             }
             
-            // 显示中奖信息
+            // 显示中奖线和信息
+            this.showWinPaylines();
             this.showWinMessage(symbol1, winAmount);
             
             // 播放中奖音效
@@ -316,6 +333,25 @@ class SlotMachineGame {
             this.gameState.winStreak = 0;
             this.showLoseMessage();
         }
+    }
+    
+    hideAllPaylines() {
+        const paylines = document.querySelectorAll('.payline');
+        paylines.forEach(line => {
+            line.classList.remove('active');
+        });
+    }
+    
+    showWinPaylines() {
+        const paylines = document.querySelectorAll('.payline');
+        paylines.forEach(line => {
+            line.classList.add('active');
+        });
+        
+        // 3秒后自动隐藏
+        setTimeout(() => {
+            this.hideAllPaylines();
+        }, 3000);
     }
     
     showWinMessage(symbol, amount) {
